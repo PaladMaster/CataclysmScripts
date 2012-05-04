@@ -20,18 +20,22 @@
 
 enum Spells
 {
-	SPELL_CRYSTAL_BARRAGE = 86881, // wowhead is wrong
-	SPELL_BARRAGE_SUMMON_SHARDS = 92150, // 92012 (Old)
-
-	SPELL_DAMPENING_WAVE = 92650,
-	SPELL_BURROW = 26381,
+    SPELL_CRYSTAL_BARRAGE                        = 86881,
+    SPELL_SUMMON_CRYSTAL_SHARD                   = 92012,
+    SPELL_DAMPENING_WAVE                         = 92650,
+    SPELL_TRASHING_CHARGE_TELE                   = 81839,
+    SPELL_TRASHING_CHARGE_VISUAL                 = 81801,
+    SPELL_BURROW                                 = 26381,
 };
 
 enum Events
 {
-	EVENT_CRYSTAL_BARRAGE = 1,
-	EVENT_DAMPENING_WAVE = 2,
-	EVENT_BURROW = 3,
+    EVENT_CRYSTAL_BARRAGE = 1,
+    EVENT_SUMMON_CRYSTAL_SHARD,
+    EVENT_DAMPENING_WAVE,
+    EVENT_TRASHING_CHARGE_TELE,
+    EVENT_TRASHING_CHARGE_VISUAL,
+    EVENT_BURROW
 };
 
 class boss_corborus : public CreatureScript
@@ -56,7 +60,14 @@ public:
 		EventMap burrowEvents;
 		bool burrowed;
 
-		void Reset() {}
+		void Reset()
+                {
+                   teleCount = 0;
+                   me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                   me->RemoveAura(65981);
+                   phase = 0;
+                   events.Reset();
+                 }   
 
 		void EnterCombat(Unit* /*who*/)
 		{
