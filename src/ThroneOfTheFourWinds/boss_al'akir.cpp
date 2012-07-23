@@ -14,3 +14,38 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#include "throne_of_the_four_winds.h"
+
+class boss_alakir: public CreatureScript
+{
+    public:
+        boss_alakir() : CreatureScript("boss_alakir") { }
+
+    struct boss_alakirAI: public BossAI
+    {
+        boss_alakirAI(Creature* creature) : BossAI
+        SummonList summons;
+        
+        void Reset ()
+        
+        void EnterCombat(Unit* who) {}
+        
+        void JustDied(Unit* killer) {}
+        
+        void UpdateAI(const uint32 diff) {}
+        
+    };
+    
+    CreatureAI* GetAI(Creature* creature) const
+    
+    {
+        return new boss_alakirAI(creature);
+    }
+};
+
+void AddSC_boss_alakir()
+{
+    new boss_alakir();
+}
+        
